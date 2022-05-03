@@ -1,12 +1,50 @@
-# class named accumulator
-class Accumulator:
-    def __init__(self, value=0):
-        self.value = value
+from util import opcode, hextobin
 
-class Register:
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
+# Parts of the machine
+#   Memory ->Data Memory, Instruction Memory
+#   Register -> Accumulator, Program Counter(maybe list of registers)
+#   ALU -> Add, Subtract, Multiply, Divide, Negate, Shift Left, Shift Right, XOR, Not, And, Or
+#   Control Circuit
+#   
+#   INC(?) & Control Word(?=control signals)
+#
+#   Input Output Components!!!!!!!
+
+class Clock:
+    def __init__(self):
+        self.time = 0
+        self.clock_frequency = 1
+        self.clock_period = 1 / self.clock_frequency
+        self.time_step = 0.1
+        self.time_step_count = 0
+
+    def tick(self):
+        self.time += self.time_step
+        self.time_step_count += 1
+        if self.time_step_count >= self.clock_period:
+            self.time_step_count = 0
+            return True
+        else:
+            return False
+
+    def getTime(self):
+        return self.time
+
+# Cache may not be valid, only memory and one register might be the valid setup
+class Cache:
+    class Register:
+        def __init__(self, address, value=0):
+            self.address = address
+            self.value = value
+
+    def __init__(self, amount=8):
+        self.amount = amount
+        self.registers = [self.Register(i, 0) for i in range(amount)]
+        self.register = self.Register(0, 1)
+
+    def display(self):
+        for i in range(self.amount):
+            print(self.registers[i].address, self.registers[i].value)
 
 class Memory:
     def __init__(self, value=0):
@@ -16,46 +54,11 @@ class CPU:
     def __init__(self, registers):
         self.registers = registers
 
+class ALU:
+    def __init__(self, value):
+        self.value = value
+
 def main():
-    acc = Accumulator(value=0)
-
-    opcode = {
-        '0000': 'BRZ',
-        '0001': 'BRN',
-        '0010': 'LDI',
-        '0011': 'LDM',
-        '0100': 'STR',
-        '0101': 'ADD',
-        '0110': 'SUB',
-        '0111': 'MUL',
-        '1000': 'DIV',
-        '1001': 'NEG',
-        '1010': 'LSL',
-        '1011': 'LSR',
-        '1100': 'XOR',
-        '1101': 'NOT',
-        '1110': 'AND',
-        '1111': 'ORR'
-    }
-
-    amount = {
-        'BRZ': 1,
-        'BRN': 1,
-        'LDI': 1,
-        'LDM': 1,
-        'STR': 1,
-        'ADD': 1,
-        'SUB': 1,
-        'MUL': 1,
-        'DIV': 1,
-        'NEG': 1,
-        'LSL': 1,
-        'LSR': 1,
-        'XOR': 1,
-        'NOT': 1,
-        'AND': 1,
-        'ORR': 1
-    }
 
     commands = list()
     with open('data.txt', 'r') as f:
@@ -72,6 +75,29 @@ def main():
 
     for c in commands:
         print(c)
+
+    instructions = list()
+
+    instructions.append(opcode[commands[2][0]])
+
+    print(instructions)
+
+    test = Cache()
+    test.display()
+
+
+    #accumulator = Register(0)
+    #program_counter = Register() # first address location of instruction memory 
+
+    while True:
+        stopSimulation = input('Press \'q\' to exit or press \'Enter\' to cycle once.\n')
+        if stopSimulation == 'q' or stopSimulation == 'Q':
+            print('Simulation stopped.')
+            break
+
+        
+        
+
 
 
 # check if __name__ is main and run the main function
