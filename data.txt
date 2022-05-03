@@ -1,0 +1,10 @@
+# Program for finding square of a positive integer.
+ret EQU 0   # This is the memory location
+            # where the result is scored
+    LDI 5   # Places number to be squared into ACC (assume 5)
+    STR 1   # Store 5 into memory so it can be multiplied.
+    MUL 1
+    STR ret # Store result into memory location 0
+
+    LDI 0   # Stop the computer.
+    BRZ 0
