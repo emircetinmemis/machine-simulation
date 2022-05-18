@@ -1,20 +1,20 @@
 opcode = {
-    'BRZ': '0',
-    'BRN': '1',
-    'LDI': '2',
-    'LDM': '3',
-    'STR': '4',
-    'ADD': '5',
-    'SUB': '6',
-    'MUL': '7',
-    'DIV': '8',
-    'NEG': '9',
-    'LSL': 'a',
-    'LSR': 'b',
-    'XOR': 'c',
-    'NOT': 'd',
-    'AND': 'e',
-    'ORR': 'f'
+    'BRZ': '0x0',
+    'BRN': '0x1',
+    'LDI': '0x2',
+    'LDM': '0x3',
+    'STR': '0x4',
+    'ADD': '0x5',
+    'SUB': '0x6',
+    'MUL': '0x7',
+    'DIV': '0x8',
+    'NEG': '0x9',
+    'LSL': '0xa',
+    'LSR': '0xb',
+    'XOR': '0xc',
+    'NOT': '0xd',
+    'AND': '0xe',
+    'ORR': '0xf'
 }
 
 hextobin = {
@@ -36,21 +36,39 @@ hextobin = {
     'f': '1111'
 }
 
-amount = {
-    'BRZ': 1,
-    'BRN': 1,
-    'LDI': 1,
-    'LDM': 1,
-    'STR': 1,
-    'ADD': 1,
-    'SUB': 1,
-    'MUL': 1,
-    'DIV': 1,
-    'NEG': 1,
-    'LSL': 1,
-    'LSR': 1,
-    'XOR': 1,
-    'NOT': 1,
-    'AND': 1,
-    'ORR': 1
-}
+def decode_assembly(code_path):
+    commands = list()
+    with open(code_path, 'r') as f:
+        for line in f:
+            command = extract_code(line)
+            if command is not None:
+                commands.append(command)
+    return commands
+
+def extract_code(raw_line):
+    # Remove the '\n' at the end
+    line = raw_line[:-1] if raw_line[-1] == '\n' else raw_line
+    # Remove the comments
+    comment_index = line.find('#')
+    if comment_index != -1:
+        line = line[:comment_index]
+    # Remove leading and trailing whitespace
+    line = line.replace('\t', ' ')
+    line = line.strip()
+    # Turn it into a list
+    if line == '':
+        return None
+    line = line.split()
+    if line == []:
+        return None
+    line[0] = opcode[line[0].upper()]
+    line[1] = '0x' + line[1].lower()
+    return line
+
+def boundary_check(data):
+    if data > 127:
+        return hex(127)
+    elif data < -128:
+        return hex(-128)
+    else:
+        return hex(data)
