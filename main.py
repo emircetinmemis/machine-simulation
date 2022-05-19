@@ -1,4 +1,4 @@
-from util import decode_assembly, opcode, hextobin
+from util import decode_assembly, opcode, hextobin, menomic
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory
 
 # Parts of the machine
@@ -62,21 +62,25 @@ def main():
         elif instruction == '0x8':
             acc.set(ALU.neg(acc.get(), ram.read(value)))
 
-        print("===========================================")
-        print("Instruction:", instruction)
-        print("Line Number:", line_number, "ACC:", acc.get())
-
         # Update
         pc.modify(1)
 
-        stop_simulation = input('Press \'q\' to exit or press \'Enter\' to cycle once.\n')
-        if stop_simulation == 'q' or stop_simulation == 'Q':
-            print('Simulation stopped.')
-            break
+        print("\n===========================================")
+        print("\n\tCurrent Instruction:", menomic[instruction], int(value, 16))
+        print("\n\tRaw Instruction:", instruction, value)
+        print("\n\tLine Number:", line_number, "\n\n\tAccumulator:", acc.get())
+        ram.display()
 
+        is_manual = True
+
+        if is_manual:
+            stop_simulation = input('\nPress \'q\' to exit or press \'Enter\' to cycle once.\n')
+            if stop_simulation == 'q' or stop_simulation == 'Q':
+                print('>Simulation stopped.')
+                break
+        
         if pc.get() >= number_of_instructions:
-            print('Simulation stopped.')
-            ram.display()
+            print('>Simulation finished.')
             break
 
         

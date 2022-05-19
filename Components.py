@@ -46,19 +46,26 @@ class RAM:
             self.address = address
             self.value = value
 
-    def __init__(self, amount=16):
+    def __init__(self, amount=256):
         self.amount = amount
         self.registers = [self.MemoryCell(hex(i)) for i in range(amount)]
-
-    def display(self):
-        for i in range(self.amount):
-            print(self.registers[i].address, self.registers[i].value)
 
     def write(self, address, value):
         self.registers[int(address, 16)].value = value
 
     def read(self, address):
         return self.registers[int(address, 16)].value
+
+    def display(self):
+        col_amount = 16
+        print('\n', '-' * (col_amount * 13 - 1), sep='')
+        for i in range(0, self.amount, col_amount):
+            for j in range(0, col_amount):
+                ram_address = self.registers[i+j].address
+                ram_value = self.registers[i+j].value
+                print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end=' | ')
+            print('\n', '-' * (col_amount * 13 - 1), sep='')
+            
 
 class InstructionMemory:
     class MemoryCell:
