@@ -1,5 +1,5 @@
 # Components of the Machine
-from util import boundary_check
+from util import boundary_check, sign_op
 
 class ALU:
     def add(acc_value, ram_value):
@@ -29,10 +29,15 @@ class ALU:
         return acc_value >> ram_value
 
     def xor(acc_value, ram_value):
-        return acc_value ^ ram_value
+        acc_value = sign_op(acc_value)
+        ram_value = sign_op(ram_value)
+        result = boundary_check(int(acc_value,2) ^ int(ram_value,2))
+        return result
 
     def not_(acc_value):
-        return ~acc_value
+        acc_value = int(sign_op(acc_value),2)
+        result = boundary_check(~acc_value)
+        return result
 
     def and_(acc_value, ram_value):
         return acc_value & ram_value

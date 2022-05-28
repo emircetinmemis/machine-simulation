@@ -87,7 +87,29 @@ def extract_code(raw_line):
 def boundary_check(data):
     if data > 127:
         return hex(127)
-    elif data < -128:
-        return hex(-128)
+    elif data < -127:
+        return hex(-127)
     else:
         return hex(data)
+
+def sign_op(data):
+    #print("This:", bin(int(data,16)))
+    data = boundary_check(int(data,16))
+    data = bin(int(data,16))
+    sign_bit = '1' if data[0] == '-' else '0'
+    data = data[data.find("b")+1:]
+    data = '0' * (7-len(data)) + data
+    data = sign_bit + data
+
+    #print("Sign_Op:", data)
+    return data
+
+def reverse_sign_op(data):
+    sign_bit = data[0]
+    data = data[1:]
+
+    data = hex(int(data,2))
+
+    data = ('-' + data) if sign_bit == '1' else data
+
+    return data
