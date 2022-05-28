@@ -59,8 +59,26 @@ def main():
         elif instruction == '0x8':
             acc.set(ALU.div(acc.get(), ram.read(value)))
 
-        elif instruction == '0x8':
+        elif instruction == '0x9':
             acc.set(ALU.neg(acc.get(), ram.read(value)))
+
+        elif instruction == '0xa':
+            acc.set(ALU.lsl(acc.get(), value))
+
+        elif instruction == '0xb':
+            acc.set(ALU.lsr(acc.get(), value))
+
+        elif instruction == '0xc':
+            acc.set(ALU.xor(acc.get(), ram.read(value)))
+
+        elif instruction == '0xd':
+            acc.set(ALU.not_(acc.get(), value))
+
+        elif instruction == '0xe':
+            acc.set(ALU.and_(acc.get(), ram.read(value)))
+
+        elif instruction == '0xf':
+            acc.set(ALU.or_(acc.get(), ram.read(value)))
 
         # Update
         pc.modify(1)

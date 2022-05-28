@@ -1,5 +1,5 @@
 # Components of the Machine
-from util import boundary_check, sign_op
+from util import boundary_check, sign_op, reverse_sign_op
 
 class ALU:
     def add(acc_value, ram_value):
@@ -22,28 +22,94 @@ class ALU:
         result = -acc_value
         return boundary_check(result)
 
-    def lsl(acc_value, ram_value):
-        return acc_value << ram_value
+    def lsl(acc_value, value):
+        if int(value, 16) < 1:
+            return acc_value
+        
+        acc_value = sign_op(acc_value)
+        result = ""
 
-    def lsr(acc_value, ram_value):   
-        return acc_value >> ram_value
+        sign_bit = acc_value[0]
+        acc_value = acc_value[1:]
+
+        result = ""
+        for i in range(int(value, 16)):
+            acc_value = acc_value[1:] + '0'
+        
+        result = sign_bit + acc_value
+        result = reverse_sign_op(result)
+        return result
+
+    def lsr(acc_value, value):   
+        if int(value, 16) < 1:
+            return acc_value
+        
+        acc_value = sign_op(acc_value)
+        result = ""
+
+        sign_bit = acc_value[0]
+        acc_value = acc_value[1:]
+
+        result = ""
+        for i in range(int(value, 16)):
+            acc_value = '0' + acc_value[:7]
+        
+        result = sign_bit + acc_value
+        result = reverse_sign_op(result)
+        return result
 
     def xor(acc_value, ram_value):
         acc_value = sign_op(acc_value)
         ram_value = sign_op(ram_value)
-        result = boundary_check(int(acc_value,2) ^ int(ram_value,2))
+        
+        result = ""
+        for i in range(8):
+            if acc_value[i] == ram_value[i]:
+                result += '0'
+            else:
+                result += '1'
+
+        result = reverse_sign_op(result)
         return result
 
-    def not_(acc_value):
-        acc_value = int(sign_op(acc_value),2)
-        result = boundary_check(~acc_value)
+    def not_(acc_value, value):
+        acc_value = sign_op(acc_value)
+        result = ""
+        for i in range(8):
+            result = (result + '1') if acc_value[i] == '0' else (result + '0')
+
+        result = reverse_sign_op(result)
         return result
 
     def and_(acc_value, ram_value):
-        return acc_value & ram_value
+        acc_value = sign_op(acc_value)
+        ram_value = sign_op(ram_value)
+        
+        # AND ops
+        result = ""
+        for i in range(8):
+            if acc_value[i] == '1' and ram_value[i] == '1':
+                result += '1'
+            else:
+                result += '0'
+
+        result = reverse_sign_op(result)
+        return result
 
     def or_(acc_value, ram_value):
-        return acc_value | ram_value
+        acc_value = sign_op(acc_value)
+        ram_value = sign_op(ram_value)
+        
+        # OR ops
+        result = ""
+        for i in range(8):
+            if acc_value[i] == '1' or ram_value[i] == '1':
+                result += '1'
+            else:
+                result += '0'
+
+        result = reverse_sign_op(result)
+        return result
 
 class RAM:
     class MemoryCell:

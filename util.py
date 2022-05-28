@@ -107,9 +107,7 @@ def sign_op(data):
 def reverse_sign_op(data):
     sign_bit = data[0]
     data = data[1:]
-
     data = hex(int(data,2))
-
     data = ('-' + data) if sign_bit == '1' else data
-
+    data = boundary_check(int(data,16))
     return data
