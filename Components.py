@@ -1,5 +1,6 @@
 # Components of the Machine
 from util import boundary_check, sign_op, reverse_sign_op
+from colorama import Fore, Style
 
 UNSIGNED_MAX_LEN = 7
 SIGNED_MAX_LEN = 1 + UNSIGNED_MAX_LEN
@@ -194,11 +195,14 @@ class RAM:
             for j in range(0, col_amount):
                 if display_as_hex:
                     ram_address = self.registers[i+j].address
-                    ram_value = hex(int(self.registers[i+j].value, 2))
+                    ram_value = reverse_sign_op(self.registers[i+j].value)
                 else:
                     ram_address = self.registers[i+j].address
                     ram_value = self.registers[i+j].value
                 print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end=' | ')
+                print(Fore.GREEN + 'and with a green background')
+                print(Style.RESET_ALL)
+                print('back to normal now')
             print('\n', '-' * dash_amount, sep='')
             
 class InstructionMemory:
