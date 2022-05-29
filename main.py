@@ -1,4 +1,4 @@
-from util import decode_assembly, opcode, hextobin, menomic
+from util import decode_assembly, opcode, hextobin, menomic, display_content
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory
 
 # Parts of the machine
@@ -26,85 +26,81 @@ def main():
         # Fetch
         instruction, value = im.read(pc.get())
         line_number = pc.get() + 1
-
+        
         # Execute
+        # BRZ: Branch on Zero
         if instruction == '0x0':
-            if int(acc.get(), 16) == 0:
+            if int(acc.get_hex(), 16) == 0:
                 pc.modify(int(value, 16))
                 pc.modify(-1)
-
+        # BRN: Branch on Negative
         elif instruction == '0x1':
-            if int(acc.get(), 16) < 0:
+            if int(acc.get_hex(), 16) < 0:
                 pc.modify(int(value, 16))
                 pc.modify(-1)
-
+        # LDI: Load Immediate
         elif instruction == '0x2':
-            acc.set(value) # value is a hex string because it converted in alu ops
-
+            acc.set(value)
+        # LDM: Load from Memory
         elif instruction == '0x3':
             acc.set(ram.read(value))
-
+        # STR: Store
         elif instruction == '0x4':
             ram.write(value, acc.get())
-
+        # ADD: Add
         elif instruction == '0x5':
             acc.set(ALU.add(acc.get(), ram.read(value)))
-
+        # SUB: Subtract
         elif instruction == '0x6':
             acc.set(ALU.sub(acc.get(), ram.read(value)))
-
+        # MUL: Multiply
         elif instruction == '0x7':
             acc.set(ALU.mul(acc.get(), ram.read(value)))
-
+        # DIV: Divide
         elif instruction == '0x8':
             acc.set(ALU.div(acc.get(), ram.read(value)))
-
+        # NEG: Negate
         elif instruction == '0x9':
             acc.set(ALU.neg(acc.get(), ram.read(value)))
-
+        # LSL: Shift Left
         elif instruction == '0xa':
             acc.set(ALU.lsl(acc.get(), value))
-
+        # LSR: Shift Right
         elif instruction == '0xb':
             acc.set(ALU.lsr(acc.get(), value))
-
+        # XOR: Bitwise XOR
         elif instruction == '0xc':
             acc.set(ALU.xor(acc.get(), ram.read(value)))
-
+        # NOT: Bitwise NOT
         elif instruction == '0xd':
             acc.set(ALU.not_(acc.get(), value))
-
+        # AND: Bitwise AND
         elif instruction == '0xe':
             acc.set(ALU.and_(acc.get(), ram.read(value)))
-
+        # ORR: Bitwise OR
         elif instruction == '0xf':
             acc.set(ALU.or_(acc.get(), ram.read(value)))
 
         # Update
         pc.modify(1)
 
-        print("\n===========================================")
-        print("\n\tCurrent Instruction:", menomic[instruction], int(value, 16))
-        print("\n\tRaw Instruction:", instruction, value)
-        print("\n\tLine Number:", line_number, "\n\n\tAccumulator:", acc.get())
-        ram.display()
+        # Displaying the content of the simulation
+        display_content(instruction, value, line_number, acc.get())
+        ram.display(display_as_hex=True)
 
         is_manual = True
 
         if is_manual:
             stop_simulation = input('\nPress \'q\' to exit or press \'Enter\' to cycle once.\n')
             if stop_simulation == 'q' or stop_simulation == 'Q':
-                print('>Simulation stopped.')
+                print('<Simulation stopped>')
                 break
         
         if pc.get() >= number_of_instructions:
-            print('>Simulation finished.')
+            print('<Simulation finished>')
             break
 
         
 # check if __name__ is main and run the main function
 if __name__ == "__main__":
     main()
-
-
-    # instruction memorysi olur, verilen txt file'in kom

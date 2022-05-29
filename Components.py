@@ -113,7 +113,7 @@ class ALU:
 
 class RAM:
     class MemoryCell:
-        def __init__(self, address, value=hex(0)):
+        def __init__(self, address, value='00000000'):
             self.address = address
             self.value = value
 
@@ -122,20 +122,27 @@ class RAM:
         self.registers = [self.MemoryCell(hex(i)) for i in range(amount)]
 
     def write(self, address, value):
-        self.registers[int(address, 16)].value = value
+        address = int(('0b' + address), 2)
+        self.registers[address].value = value
 
     def read(self, address):
-        return self.registers[int(address, 16)].value
+        address = int(('0b' + address), 2)
+        return self.registers[address].value
 
-    def display(self):
-        col_amount = 16
-        print('\n', '-' * (col_amount * 13 - 1), sep='')
+    def display(self, display_as_hex=False):
+        col_amount = 16 if display_as_hex else 8
+        dash_amount = (col_amount * 13 - 1) if display_as_hex else (col_amount * 17 - 1)
+        print('\n', '-' * dash_amount, sep='')
         for i in range(0, self.amount, col_amount):
             for j in range(0, col_amount):
-                ram_address = self.registers[i+j].address
-                ram_value = self.registers[i+j].value
+                if display_as_hex:
+                    ram_address = self.registers[i+j].address
+                    ram_value = hex(int(self.registers[i+j].value, 2))
+                else:
+                    ram_address = self.registers[i+j].address
+                    ram_value = self.registers[i+j].value
                 print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end=' | ')
-            print('\n', '-' * (col_amount * 13 - 1), sep='')
+            print('\n', '-' * dash_amount, sep='')
             
 
 class InstructionMemory:
@@ -157,8 +164,11 @@ class InstructionMemory:
             print(self.registers[i])
 
 class Accumulator:
-    def __init__(self, value=0):
+    def __init__(self, value='00000000'):
         self.value = value
+
+    def get_hex(self):
+        return reverse_sign_op(self.value)
 
     def get(self):
         return self.value

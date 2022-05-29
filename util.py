@@ -81,8 +81,42 @@ def extract_code(raw_line):
     if line == []:
         return None
     line[0] = opcode[line[0].upper()]
-    line[1] = '0x' + line[1].lower()
+    
+    line[1] = input_to_bin(line[1].lower())
+
     return line
+
+def input_to_bin(val):
+    if val[0] == '-':
+        if len(val) == 2:
+            val = '1000' + hextobin[val[1]]
+        elif len(val) == 3:
+            if hextobin[val[1]][0] == '1':
+                val = '1111' + hextobin[val[2]]
+            else:
+                val = '1' + hextobin[val[1]][1:] + hextobin[val[2]]
+        else:
+            print('Something went wrong. (-)')
+    elif len(val) == 1:
+        val = '0000' + hextobin[val]
+    elif len(val) == 2:
+        if hextobin[val[1]][0] == '1':
+            val = '0111' + hextobin[val[1]]
+        else:
+            val = hextobin[val[0]] + hextobin[val[1]]
+    else:
+        print('Something went wrong. (+)')
+    return val
+
+def display_content(inst, val, line_no, acc):
+    inst_value = val[1:]
+    inst_value = ('-0b' + inst_value) if val[0] == '1' else ('0b' + inst_value)
+    inst_value = hex(int(inst_value, 2))
+    print("\n===========================================")
+    print("\n\tCurrent Instruction:", menomic[inst], inst_value)
+    print("\n\tRaw Instruction:", inst, val)
+    print("\n\tLine Number:", line_no, "\n\n\tAccumulator:", acc)
+
 
 def boundary_check(data):
     if data > 127:
