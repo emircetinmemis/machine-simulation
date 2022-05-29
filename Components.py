@@ -1,14 +1,69 @@
 # Components of the Machine
 from util import boundary_check, sign_op, reverse_sign_op
 
+UNSIGNED_MAX_LEN = 7
+SIGNED_MAX_LEN = 1 + UNSIGNED_MAX_LEN
+
 class ALU:
     def add(acc_value, ram_value):
-        result =  int(acc_value, 16) + int(ram_value, 16)
-        return boundary_check(result)
+        result = ''
+        if acc_value[0] == '1' and ram_value[0] == '1':
+            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = '1' + result
+
+        if acc_value[0] == '0' and ram_value[0] == '0':
+            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = '0' + result
+
+        if acc_value[0] == '1' and ram_value[0] == '0':
+            if int(acc_value[1:], 2) > int(ram_value[1:], 2):
+                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = '1' + result
+
+            else:
+                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = '0' + result
+                
+        if acc_value[0] == '0' and ram_value[0] == '1':
+            if int(acc_value[1:], 2) >= int(ram_value[1:], 2):
+                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = '0' + result
+
+            else:
+                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = '1' + result
+
+        return result
 
     def sub(acc_value, ram_value):
-        result =  int(acc_value, 16) - int(ram_value, 16)
-        return boundary_check(result)
+        result =  ''
+        if acc_value[0] == '1' and ram_value[0] == '1':
+            if int(acc_value[1:], 2) > int(ram_value[1:], 2):
+                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = '1' + result
+
+            else:
+                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = '0' + result
+
+        if acc_value[0] == '0' and ram_value[0] == '0':
+            if int(acc_value[1:], 2) >= int(ram_value[1:], 2):
+                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = '0' + result
+
+            else:
+                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = '1' + result
+
+        if acc_value[0] == '1' and ram_value[0] == '0':
+            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = '1' + result
+
+        if acc_value[0] == '0' and ram_value[0] == '1':
+            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = '0' + result
+
+        return result
 
     def mul(acc_value, ram_value):
         result =  int(acc_value, 16) * int(ram_value, 16)
@@ -19,96 +74,98 @@ class ALU:
         return boundary_check(result)
 
     def neg(acc_value):
-        result = -acc_value
-        return boundary_check(result)
+        result = '1' if acc_value[0] == '0' else '0'
+        result += acc_value[1:]
+        return result
 
     def lsl(acc_value, value):
-        if int(value, 16) < 1:
+        if value[0] == '1' or int(value[1:], 2) < 1:
             return acc_value
-        
-        acc_value = sign_op(acc_value)
-        result = ""
 
         sign_bit = acc_value[0]
         acc_value = acc_value[1:]
 
         result = ""
-        for i in range(int(value, 16)):
+        for i in range(int(value, 2)):
             acc_value = acc_value[1:] + '0'
         
         result = sign_bit + acc_value
-        result = reverse_sign_op(result)
         return result
 
     def lsr(acc_value, value):   
-        if int(value, 16) < 1:
+        if value[0] == '1' or int(value[1:], 2) < 1:
             return acc_value
-        
-        acc_value = sign_op(acc_value)
-        result = ""
 
         sign_bit = acc_value[0]
         acc_value = acc_value[1:]
 
         result = ""
-        for i in range(int(value, 16)):
+        for i in range(int(value, 2)):
             acc_value = '0' + acc_value[:7]
         
         result = sign_bit + acc_value
-        result = reverse_sign_op(result)
         return result
 
     def xor(acc_value, ram_value):
-        acc_value = sign_op(acc_value)
-        ram_value = sign_op(ram_value)
-        
         result = ""
         for i in range(8):
             if acc_value[i] == ram_value[i]:
                 result += '0'
             else:
                 result += '1'
-
-        result = reverse_sign_op(result)
         return result
 
     def not_(acc_value, value):
-        acc_value = sign_op(acc_value)
         result = ""
-        for i in range(8):
+        for i in range(SIGNED_MAX_LEN):
             result = (result + '1') if acc_value[i] == '0' else (result + '0')
-
-        result = reverse_sign_op(result)
         return result
 
     def and_(acc_value, ram_value):
-        acc_value = sign_op(acc_value)
-        ram_value = sign_op(ram_value)
-        
-        # AND ops
         result = ""
         for i in range(8):
             if acc_value[i] == '1' and ram_value[i] == '1':
                 result += '1'
             else:
                 result += '0'
-
-        result = reverse_sign_op(result)
         return result
 
-    def or_(acc_value, ram_value):
-        acc_value = sign_op(acc_value)
-        ram_value = sign_op(ram_value)
-        
-        # OR ops
+    def or_(acc_value, ram_value):    
         result = ""
         for i in range(8):
             if acc_value[i] == '1' or ram_value[i] == '1':
                 result += '1'
             else:
                 result += '0'
+        return result
 
-        result = reverse_sign_op(result)
+    def summation(num1, num2):
+        result = ''
+        carry = 0
+        
+        for i in range(UNSIGNED_MAX_LEN - 1, -1, -1):
+            r = carry
+            r += 1 if num1[i] == '1' else 0
+            r += 1 if num2[i] == '1' else 0
+            result = ('1' if r % 2 == 1 else '0') + result
+        
+            carry = 0 if r < 2 else 1
+        
+        if carry != 0:
+            result = '1' + result
+
+        result = result[len(result) - UNSIGNED_MAX_LEN:]
+        return result
+
+    def extraction(num1, num2):
+        temp = ''
+        for i in range(UNSIGNED_MAX_LEN):
+            temp += '0' if num2[i] == '1' else '1'
+
+        num2 = temp
+
+        result = sum(num1, num2)
+        result = sum(result, '0000001')
         return result
 
 class RAM:
@@ -144,7 +201,6 @@ class RAM:
                 print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end=' | ')
             print('\n', '-' * dash_amount, sep='')
             
-
 class InstructionMemory:
     class MemoryCell:
         def __init__(self, address, instruction, value):
