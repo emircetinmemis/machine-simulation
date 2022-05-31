@@ -292,8 +292,8 @@ class ProgramCounter:
         if acc_value[0] == '1':
             self.value += int(reverse_sign_op(value), 16) - 1
     
+    def increment(self):
+        self.value += 1
+        
     def get(self):
         return self.value
-
-    def modify(self, value):
-        self.value += value

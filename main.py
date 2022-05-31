@@ -78,7 +78,7 @@ def main():
             acc.set(ALU.or_(acc.get(), ram.read(value)))
 
         # Update
-        pc.modify(1)
+        pc.increment()
 
         # Displaying the content of the simulation
         display_content(instruction, value, line_number, acc.get())
