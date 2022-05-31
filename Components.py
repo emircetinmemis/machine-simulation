@@ -177,6 +177,9 @@ class RAM:
             self.address = address
             self.value = value
 
+        def __str__(self):
+            return '{}:{}'.format(self.address, reverse_sign_op(self.value))
+
     def __init__(self, amount=256):
         self.amount = amount
         self.registers = [self.MemoryCell(hex(i)) for i in range(amount)]
