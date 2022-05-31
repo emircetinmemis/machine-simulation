@@ -84,7 +84,7 @@ def main():
         display_content(instruction, value, line_number, acc.get())
         ram.display(display_as_hex=True)
 
-        is_manual = True
+        is_manual = False
 
         if is_manual:
             stop_simulation = input('\nPress \'q\' to exit or press \'Enter\' to cycle once.\n')

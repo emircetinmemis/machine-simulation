@@ -70,6 +70,7 @@ def decode_assembly_emir(textInput):
         command = extract_code(line)
         if command is not None:
             commands.append(command)
+    return commands
 
 def extract_code(raw_line):
     # Remove the '\n' at the end
@@ -165,3 +166,35 @@ def reverse_sign_op(data):
     data = ('-' + data) if sign_bit == '1' else data
     data = boundary_check(int(data,16))
     return data
+
+UNSIGNED_MAX_LEN = 7
+SIGNED_MAX_LEN = 1 + UNSIGNED_MAX_LEN
+
+def summation(num1, num2):
+        result = ''
+        carry = 0
+        
+        for i in range(UNSIGNED_MAX_LEN - 1, -1, -1):
+            r = carry
+            r += 1 if num1[i] == '1' else 0
+            r += 1 if num2[i] == '1' else 0
+            result = ('1' if r % 2 == 1 else '0') + result
+        
+            carry = 0 if r < 2 else 1
+        
+        if carry != 0:
+            result = '1' + result
+
+        result = result[len(result) - UNSIGNED_MAX_LEN:]
+        return result
+
+def extraction(num1, num2):
+    temp = ''
+    for i in range(UNSIGNED_MAX_LEN):
+        temp += '0' if num2[i] == '1' else '1'
+
+    num2 = temp
+
+    result = summation(num1, num2)
+    result = summation(result, '0000001')
+    return result

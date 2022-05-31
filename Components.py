@@ -1,5 +1,5 @@
 # Components of the Machine
-from util import boundary_check, sign_op, reverse_sign_op
+from util import boundary_check, sign_op, reverse_sign_op, summation, extraction
 from colorama import Fore, Style, Back
 
 UNSIGNED_MAX_LEN = 7
@@ -9,29 +9,29 @@ class ALU:
     def add(acc_value, ram_value):
         result = ''
         if acc_value[0] == '1' and ram_value[0] == '1':
-            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = summation(acc_value[1:], ram_value[1:])
             result = '1' + result
 
         if acc_value[0] == '0' and ram_value[0] == '0':
-            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = summation(acc_value[1:], ram_value[1:])
             result = '0' + result
 
         if acc_value[0] == '1' and ram_value[0] == '0':
             if int(acc_value[1:], 2) > int(ram_value[1:], 2):
-                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = extraction(acc_value[1:], ram_value[1:])
                 result = '1' + result
 
             else:
-                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = extraction(ram_value[1:], acc_value[1:])
                 result = '0' + result
                 
         if acc_value[0] == '0' and ram_value[0] == '1':
             if int(acc_value[1:], 2) >= int(ram_value[1:], 2):
-                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = extraction(acc_value[1:], ram_value[1:])
                 result = '0' + result
 
             else:
-                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = extraction(ram_value[1:], acc_value[1:])
                 result = '1' + result
 
         return result
@@ -40,28 +40,28 @@ class ALU:
         result =  ''
         if acc_value[0] == '1' and ram_value[0] == '1':
             if int(acc_value[1:], 2) > int(ram_value[1:], 2):
-                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = extraction(acc_value[1:], ram_value[1:])
                 result = '1' + result
 
             else:
-                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = extraction(ram_value[1:], acc_value[1:])
                 result = '0' + result
 
         if acc_value[0] == '0' and ram_value[0] == '0':
             if int(acc_value[1:], 2) >= int(ram_value[1:], 2):
-                result = ALU.extraction(acc_value[1:], ram_value[1:])
+                result = extraction(acc_value[1:], ram_value[1:])
                 result = '0' + result
 
             else:
-                result = ALU.extraction(ram_value[1:], acc_value[1:])
+                result = extraction(ram_value[1:], acc_value[1:])
                 result = '1' + result
 
         if acc_value[0] == '1' and ram_value[0] == '0':
-            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = summation(acc_value[1:], ram_value[1:])
             result = '1' + result
 
         if acc_value[0] == '0' and ram_value[0] == '1':
-            result = ALU.summation(acc_value[1:], ram_value[1:])
+            result = summation(acc_value[1:], ram_value[1:])
             result = '0' + result
 
         return result
@@ -80,7 +80,7 @@ class ALU:
 
         temp = ALU.summation(acc_value, acc_value)
         for i in range(ram_value - 2): 
-            temp = ALU.summation(temp, acc_value)
+            temp = summation(temp, acc_value)
 
         result = sign + temp
         
@@ -169,34 +169,7 @@ class ALU:
                 result += '0'
         return result
 
-    def summation(num1, num2):
-        result = ''
-        carry = 0
-        
-        for i in range(UNSIGNED_MAX_LEN - 1, -1, -1):
-            r = carry
-            r += 1 if num1[i] == '1' else 0
-            r += 1 if num2[i] == '1' else 0
-            result = ('1' if r % 2 == 1 else '0') + result
-        
-            carry = 0 if r < 2 else 1
-        
-        if carry != 0:
-            result = '1' + result
-
-        result = result[len(result) - UNSIGNED_MAX_LEN:]
-        return result
-
-    def extraction(num1, num2):
-        temp = ''
-        for i in range(UNSIGNED_MAX_LEN):
-            temp += '0' if num2[i] == '1' else '1'
-
-        num2 = temp
-
-        result = sum(num1, num2)
-        result = sum(result, '0000001')
-        return result
+    
 
 class RAM:
     class MemoryCell:
