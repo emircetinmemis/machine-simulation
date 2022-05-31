@@ -112,10 +112,23 @@ def display_content(inst, val, line_no, acc):
     inst_value = val[1:]
     inst_value = ('-0b' + inst_value) if val[0] == '1' else ('0b' + inst_value)
     inst_value = hex(int(inst_value, 2))
+
+    acc_value = acc
+    acc_value = ('-0b' + acc_value) if acc[0] == '1' else ('0b' + acc_value)
+    acc_value = hex(int(acc_value, 2))
+
     print("\n===========================================")
-    print("\n\tCurrent Instruction:", menomic[inst], inst_value)
-    print("\n\tRaw Instruction:", inst, val)
-    print("\n\tLine Number:", line_no, "\n\n\tAccumulator:", acc)
+    print("\n\tLine Number:", line_no)
+    print("\nCurrent Instruction:", menomic[inst], inst_value)
+    print("\tBIN:", val[0], val[1:])
+    print("\tHEX:", inst_value)
+    print("\tDEC:", int(inst_value, 16))
+
+    print("\nAccumulator")
+    print("\tBIN:", acc[0], acc[1:])
+    print("\tHEX:", acc_value)
+    print("\tDEC:", int(acc_value, 16))
+    print()    
 
 
 def boundary_check(data):

@@ -217,10 +217,20 @@ class RAM:
         return self.registers[address].value
 
     def display(self, display_as_hex=False):
+
+        HORIZONTAL_CHAR = '═' # old
+        VERTICAL_CHAR = ' ' + '|' + ' ' # old
+        #HORIZONTAL_CHAR = '█'
+        #VERTICAL_CHAR = ' ' + '█' + ' '
+
+        HORIZONTAL_CHAR_START = HORIZONTAL_CHAR * 2
+        VERTICAL_CHAR_START = VERTICAL_CHAR[1:]
+
         col_amount = 16 if display_as_hex else 8
         dash_amount = (col_amount * 13 - 1) if display_as_hex else (col_amount * 17 - 1)
-        print('\n', '═' * dash_amount, sep='')
+        print('\n' + HORIZONTAL_CHAR_START, HORIZONTAL_CHAR * dash_amount, sep='')
         for i in range(0, self.amount, col_amount):
+            print(VERTICAL_CHAR_START, sep='', end='')
             for j in range(0, col_amount):
                 ram_address = 'x' + self.registers[i+j].address[2:].upper()
                 if display_as_hex:
@@ -236,8 +246,8 @@ class RAM:
                     #print(Back.LIGHTBLACK_EX, end='')
                 print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end='')
                 print(Style.RESET_ALL, end='')
-                print(' | ', sep='', end='')
-            print('\n', '═' * dash_amount, sep='')
+                print(VERTICAL_CHAR, sep='', end='')
+            print('\n' + HORIZONTAL_CHAR_START, HORIZONTAL_CHAR * dash_amount, sep='')
             
 class InstructionMemory:
     class MemoryCell:
