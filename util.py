@@ -117,13 +117,8 @@ def input_to_bin(val):
     return val
 
 def display_content(inst, val, line_no, acc):
-    inst_value = val[1:]
-    inst_value = ('-0b' + inst_value) if val[0] == '1' else ('0b' + inst_value)
-    inst_value = hex(int(inst_value, 2))
-
-    acc_value = acc
-    acc_value = ('-0b' + acc_value) if acc[0] == '1' else ('0b' + acc_value)
-    acc_value = hex(int(acc_value, 2))
+    inst_value = reverse_sign_op(val)
+    acc_value  = reverse_sign_op(acc)
 
     print("\n===========================================")
     print("\n\tLine Number:", line_no)
@@ -136,7 +131,7 @@ def display_content(inst, val, line_no, acc):
     print("\tBIN:", acc[0], acc[1:])
     print("\tHEX:", acc_value)
     print("\tDEC:", int(acc_value, 16))
-    print()    
+    print()
 
 
 def boundary_check(data):
