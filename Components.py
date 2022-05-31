@@ -1,6 +1,6 @@
 # Components of the Machine
 from util import boundary_check, sign_op, reverse_sign_op
-from colorama import Fore, Style
+from colorama import Fore, Style, Back
 
 UNSIGNED_MAX_LEN = 7
 SIGNED_MAX_LEN = 1 + UNSIGNED_MAX_LEN
@@ -190,20 +190,25 @@ class RAM:
     def display(self, display_as_hex=False):
         col_amount = 16 if display_as_hex else 8
         dash_amount = (col_amount * 13 - 1) if display_as_hex else (col_amount * 17 - 1)
-        print('\n', '-' * dash_amount, sep='')
+        print('\n', '═' * dash_amount, sep='')
         for i in range(0, self.amount, col_amount):
             for j in range(0, col_amount):
+                ram_address = 'x' + self.registers[i+j].address[2:].upper()
                 if display_as_hex:
-                    ram_address = self.registers[i+j].address
                     ram_value = reverse_sign_op(self.registers[i+j].value)
+                    if ram_value[0] == '-':
+                        ram_value = '-' + ram_value[2:]
+                    else:
+                        ram_value = ram_value[1:]
                 else:
-                    ram_address = self.registers[i+j].address
                     ram_value = self.registers[i+j].value
-                print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end=' | ')
-                print(Fore.GREEN + 'and with a green background')
-                print(Style.RESET_ALL)
-                print('back to normal now')
-            print('\n', '-' * dash_amount, sep='')
+                if self.registers[i+j].value != '00000000':
+                    print(Fore.GREEN, end='')
+                    #print(Back.LIGHTBLACK_EX, end='')
+                print('{:4s}: {:4s}'.format(ram_address, ram_value), sep='', end='')
+                print(Style.RESET_ALL, end='')
+                print(' | ', sep='', end='')
+            print('\n', '═' * dash_amount, sep='')
             
 class InstructionMemory:
     class MemoryCell:
