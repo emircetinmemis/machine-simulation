@@ -2,6 +2,7 @@ from util import decode_assembly, opcode, hextobin, menomic, display_content
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory
 
 GUI = False
+CONSOLE_WRITE = False
 # Parts of the machine
 #   Memory ->Data Memory, Instruction Memory
 #   Register -> Accumulator, Program Counter(maybe list of registers)
@@ -25,7 +26,7 @@ def main():
 
     while True:
         compiler(acc, ram, pc, im)
-        is_manual = False
+        is_manual = True and not(CONSOLE_WRITE)
 
         if is_manual:
             stop_simulation = input('\nPress \'q\' to exit or press \'Enter\' to cycle once.\n')
@@ -99,13 +100,20 @@ def compiler(acc, ram, pc, im):
     display_content(instruction, value, line_number, acc.get())
     ram.display(display_as_hex=True)
 
+    return instruction, value, line_number, acc.get()
+
 def main_gui():
     pass
 
 # check if __name__ is main and run the main function
+import contextlib
 if __name__ == "__main__":
-
     if GUI:
         main_gui()
     else:
-        main()
+        if CONSOLE_WRITE:
+            console_output_file = "console_output.txt"
+            with contextlib.redirect_stdout(open(console_output_file, "w")):
+                main()
+        else:
+            main()

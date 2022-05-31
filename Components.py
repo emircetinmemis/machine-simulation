@@ -191,7 +191,7 @@ class RAM:
 
     def display(self, display_as_hex=False):
 
-        HORIZONTAL_CHAR = '═' # old
+        HORIZONTAL_CHAR = '=' # old
         VERTICAL_CHAR = ' ' + '|' + ' ' # old
         #HORIZONTAL_CHAR = '█'
         #VERTICAL_CHAR = ' ' + '█' + ' '
