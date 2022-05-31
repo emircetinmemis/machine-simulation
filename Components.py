@@ -284,6 +284,14 @@ class ProgramCounter:
     def __init__(self, value=0):
         self.value = value
 
+    def brz(self, acc_value, value):
+        if acc_value == '00000000' or acc_value == '10000000':
+            self.value += int(reverse_sign_op(value), 16) - 1
+
+    def brn(self, acc_value, value):
+        if acc_value[0] == '1':
+            self.value += int(reverse_sign_op(value), 16) - 1
+    
     def get(self):
         return self.value
 

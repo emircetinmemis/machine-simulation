@@ -30,14 +30,10 @@ def main():
         # Execute
         # BRZ: Branch on Zero
         if instruction == '0x0':
-            if int(acc.get_hex(), 16) == 0:
-                pc.modify(int(value, 16))
-                pc.modify(-1)
+            pc.brz(acc.get(), value)
         # BRN: Branch on Negative
         elif instruction == '0x1':
-            if int(acc.get_hex(), 16) < 0:
-                pc.modify(int(value, 16))
-                pc.modify(-1)
+            pc.brn(acc.get(), value)
         # LDI: Load Immediate
         elif instruction == '0x2':
             acc.set(value)
