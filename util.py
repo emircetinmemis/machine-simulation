@@ -64,14 +64,6 @@ def decode_assembly(code_path):
                 commands.append(command)
     return commands
 
-def decode_assembly_emir(textInput):
-    commands = list()
-    for line in textInput:
-        command = extract_code(line)
-        if command is not None:
-            commands.append(command)
-    return commands
-
 def extract_code(raw_line):
     # Remove the '\n' at the end
     line = raw_line[:-1] if raw_line[-1] == '\n' else raw_line
