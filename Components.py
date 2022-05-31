@@ -67,12 +67,41 @@ class ALU:
         return result
 
     def mul(acc_value, ram_value):
-        result =  int(acc_value, 16) * int(ram_value, 16)
-        return boundary_check(result)
+        sign = str((int(acc_value[0], 2) + int(ram_value[0], 2)) % 2)
+        acc_value = acc_value[1:]
+        ram_value = ram_value[1:]
+
+        ram_value = int(reverse_sign_op(ram_value), 16)
+        if ram_value == 0:
+            return '00000000'
+        
+        if ram_value == 1:
+            return acc_value
+
+        temp = ALU.summation(acc_value, acc_value)
+        for i in range(ram_value - 2): 
+            temp = ALU.summation(temp, acc_value)
+
+        result = sign + temp
+        
+        return result
 
     def div(acc_value, ram_value):
-        result =  int(acc_value, 16) // int(ram_value, 16)
-        return boundary_check(result)
+        sign = str((int(acc_value[0], 2) + int(ram_value[0], 2)) % 2)
+        acc_value = acc_value[1:]
+        ram_value = ram_value[1:]
+
+        acc_value = int(reverse_sign_op(acc_value), 16)
+        ram_value = int(reverse_sign_op(ram_value), 16)
+
+        if ram_value == 0:
+            return '00000000'
+
+        if acc_value < ram_value:
+            return '00000000'
+            
+        result = sign + str(sign_op(hex(acc_value // ram_value)))[1:]
+        return result
 
     def neg(acc_value):
         result = '1' if acc_value[0] == '0' else '0'
