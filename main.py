@@ -2,7 +2,7 @@ from util import decode_assembly, opcode, hextobin, menomic, display_content
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory
 
 GUI = False
-CONSOLE_WRITE = True
+CONSOLE_WRITE = False
 # Parts of the machine
 #   Memory ->Data Memory, Instruction Memory
 #   Register -> Accumulator, Program Counter(maybe list of registers)
@@ -26,7 +26,7 @@ def main():
 
     while True:
         compiler(acc, ram, pc, im)
-        is_manual = True and not(CONSOLE_WRITE) # Console output verecegi zaman manuel olmasın diye yaptım cunku console cok sacma oluyor :D (aynı anda hem txt hem console olmuyor sadece enter koyuyorsun fln)
+        is_manual = True and not(CONSOLE_WRITE) 
 
         if is_manual:
             stop_simulation = input('\nPress \'q\' to exit or press \'Enter\' to cycle once.\n')
