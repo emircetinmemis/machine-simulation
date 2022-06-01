@@ -1,8 +1,7 @@
-from   tkinter  import ttk
+from tkinter  import ttk
 import tkinter  as tk
 
 class ControllFrame(tk.Frame) :
-
     def __init__(self, parent, root, *args, **kwargs) :
         super().__init__(parent, *args, **kwargs)
 
@@ -35,19 +34,15 @@ class ControllFrame(tk.Frame) :
             button.grid_configure(padx=20, pady=5, ipadx=5, ipady=5)
 
     def startMachine(self) :
-        
         self.startButton.config(state="disabled")
         self.resetButton.config(state="normal")
         self.nextButton.config(state="normal")
 
         self.root.inputSection.saveAndCloseTextContent()
-
         self.root.loadMachine()
-
         self.root.runCompiler()
 
     def resetMachine(self) :
-
         self.resetButton.config(state="disabled")
         self.nextButton.config(state="disabled", text="Next")
         self.startButton.config(state="normal")
@@ -59,5 +54,3 @@ class ControllFrame(tk.Frame) :
         self.root.inputSection.inputArea.delete("1.0", tk.END)
         self.root.inputSection.inputArea.insert(tk.END, "Enter the assembly code here")
         self.root.inputSection.inputArea.bind("<Button-1>", self.root.inputSection.clearTextContent)
-
-        

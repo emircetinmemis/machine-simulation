@@ -1,9 +1,7 @@
 from   tkinter  import ttk
 import tkinter  as tk
-from turtle import st
 
 class InputFrame(tk.Frame) :
-
     def __init__(self, parent, root, *args, **kwargs) :
         super().__init__(parent, *args, **kwargs)
 

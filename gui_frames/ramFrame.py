@@ -6,7 +6,6 @@ from   tkinter  import ttk
 import tkinter  as tk
 
 class RamFrame(tk.Frame) :
-
     def __init__(self, parent, root, *args, **kwargs) :
         super().__init__(parent, *args, **kwargs)
 
@@ -21,7 +20,6 @@ class RamFrame(tk.Frame) :
         self.ramContainerFrame.grid(row=0, column=0)
 
         #self.ramContainerFrame.configure(background="gray74")
-
         self.resetRamScreen()
         
     def loadRamLabels(self) :

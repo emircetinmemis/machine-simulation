@@ -1,17 +1,11 @@
-from dis import Instruction
-
-from sklearn.feature_selection import SelectFdr
-from    Components import RAM, Accumulator, ProgramCounter, InstructionMemory
-from    gui_frames import ControllFrame, InfoFrame, InputFrame, RamFrame
-from    util import decode_assembly, menomic, reverse_sign_op
-from    main import compiler
-from    tkinter  import ttk
+from Components import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
+from gui_frames import ControllFrame, InfoFrame, InputFrame, RamFrame
+from util import decode_assembly, menomic, reverse_sign_op
+from tkinter  import ttk
 import  tkinter  as tk
 from PIL import Image, ImageTk
 
-
-class application(tk.Tk) :
-
+class Application(tk.Tk) :
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
 
@@ -83,7 +77,7 @@ class application(tk.Tk) :
         if (self.inputSection.inputArea.get("1.0", tk.END).rstrip() == "") :
             self.controllerSection.nextButton.config(state="disabled", text="End")
 
-        instruction, value, lineNo, acc = compiler(self.acc, self.ram, self.pc, self.im)
+        instruction, value, lineNo, acc = Compiler.compile_instruction(self.acc, self.ram, self.pc, self.im)
         instructionValue = reverse_sign_op(value)
         accValue = reverse_sign_op(acc)
 
@@ -93,6 +87,3 @@ class application(tk.Tk) :
 
         if self.pc.get() >= self.number_of_instructions:
             self.controllerSection.nextButton.config(state="disabled", text="End")
-
-app = application()
-app.mainloop()
