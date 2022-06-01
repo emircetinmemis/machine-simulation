@@ -131,7 +131,7 @@ class ALU:
 
         result = ""
         for i in range(int(value, 2)):
-            acc_value = '0' + acc_value[:7]
+            acc_value = '0' + acc_value[:6]
         
         result = sign_bit + acc_value
         return result
