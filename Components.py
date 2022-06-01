@@ -167,9 +167,7 @@ class ALU:
                 result += '1'
             else:
                 result += '0'
-        return result
-
-    
+        return result   
 
 class RAM:
     class MemoryCell:
