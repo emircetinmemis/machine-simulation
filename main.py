@@ -2,7 +2,7 @@ from util import decode_assembly, opcode, hextobin, menomic, display_content
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from application import Application
 
-GUI = False
+GUI = True
 CONSOLE_WRITE = False
 # Parts of the machine
 #   Memory ->Data Memory, Instruction Memory
