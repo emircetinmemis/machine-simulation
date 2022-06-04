@@ -3,3 +3,11 @@ __pycache__/util.cpython-39.pyc
 __pycache__/ALU.cpython-39.pyc
 __pycache__/Components.cpython-39.pyc
 console_output.txt
+data.txt
+*.pyc
+__pycache__/application.cpython-39.pyc
+gui_frames/__pycache__/__init__.cpython-39.pyc
+gui_frames/__pycache__/controllFrame.cpython-39.pyc
+gui_frames/__pycache__/infoFrame.cpython-39.pyc
+gui_frames/__pycache__/inputFrame.cpython-39.pyc
+gui_frames/__pycache__/ramFrame.cpython-39.pyc
