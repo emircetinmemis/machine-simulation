@@ -1,4 +1,4 @@
-from util import decode_assembly, opcode, hextobin, menomic, display_content
+from util import decode_assembly, opcode, hextobin, menomic, display_content, cleanPycache
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from application import Application
 
@@ -46,6 +46,7 @@ def main_gui():
 # check if __name__ is main and run the main function
 import contextlib
 if __name__ == "__main__":
+    cleanPycache()
     if GUI:
         main_gui()
     else:
@@ -55,3 +56,4 @@ if __name__ == "__main__":
                 main()
         else:
             main()
+    cleanPycache()

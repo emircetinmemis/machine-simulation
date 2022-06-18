@@ -1,3 +1,8 @@
+import shutil
+
+
+import shutil
+
 opcode = {
     'BRZ': '0x0',
     'BRN': '0x1',
@@ -55,6 +60,13 @@ hextobin = {
     'f': '1111'
 }
 
+def cleanPycache():
+    try :
+        shutil.rmtree('./__pycache__')
+        shutil.rmtree('./gui_frames/__pycache__')
+    except :
+        pass
+    
 def decode_assembly(code_path):
     commands = list()
     with open(code_path, 'r') as f:
