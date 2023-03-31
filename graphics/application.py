@@ -1,6 +1,7 @@
-from Components import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
+from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from graphics import _ControllFrame, _InfoFrame, _InputFrame, _RamFrame
-from util import decode_assembly, menomic, reverse_sign_op
+from utilities import decode_assembly, reverse_sign_op
+from constants import menomic
 from tkinter  import ttk
 import  tkinter  as tk
 from PIL import Image, ImageTk

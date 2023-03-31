@@ -1,7 +1,5 @@
-from itertools import tee
-from pyparsing import col
-from Components import RAM
-from    util import decode_assembly, opcode, hextobin, menomic, display_content, reverse_sign_op
+from utilities import RAM
+from    utilities import reverse_sign_op
 from   tkinter  import ttk
 import tkinter  as tk
 
