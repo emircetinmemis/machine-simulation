@@ -1,9 +1,7 @@
 # Components of the Machine
-from util import boundary_check, sign_op, reverse_sign_op, summation, extraction, display_content
-from colorama import Fore, Style, Back
-
-UNSIGNED_MAX_LEN = 7
-SIGNED_MAX_LEN = 1 + UNSIGNED_MAX_LEN
+from utilities import sign_op, reverse_sign_op, summation, extraction, display_content
+from colorama import Fore, Style
+from constants import SIGNED_MAX_LEN
 
 class ALU:
     def add(acc_value, ram_value):
