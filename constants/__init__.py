@@ -6,6 +6,7 @@ from constants.paths import (
 
 from constants.values import (
     SIGNED_MAX_LEN,
+    UNSIGNED_MAX_LEN,
     hextobin,
     menomic,
     opcode
