@@ -9,3 +9,12 @@ from utilities.utils import (
     summation,
     extraction
 )
+
+from utilities.components import (
+    ALU, 
+    RAM, 
+    Accumulator, 
+    ProgramCounter, 
+    InstructionMemory, 
+    Compiler
+)

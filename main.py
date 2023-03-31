@@ -1,6 +1,6 @@
-from util import decode_assembly, opcode, hextobin, menomic, display_content, cleanPycache
-from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
-from graphics.application import Application
+from utilities import decode_assembly
+from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
+from graphics import Application
 
 GUI = True
 CONSOLE_WRITE = False
@@ -46,7 +46,6 @@ def main_gui():
 # check if __name__ is main and run the main function
 import contextlib
 if __name__ == "__main__":
-    cleanPycache()
     if GUI:
         main_gui()
     else:
@@ -56,4 +55,3 @@ if __name__ == "__main__":
                 main()
         else:
             main()
-    cleanPycache()
