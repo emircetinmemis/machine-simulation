@@ -1,6 +1,6 @@
 from util import decode_assembly, opcode, hextobin, menomic, display_content, cleanPycache
 from Components import ALU, RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
-from application import Application
+from graphics.application import Application
 
 GUI = True
 CONSOLE_WRITE = False
