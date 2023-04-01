@@ -1,10 +1,19 @@
-from utilities import RAM
-from    utilities import reverse_sign_op
-from   tkinter  import ttk
-import tkinter  as tk
+from   utilities    import (
+    reverse_sign_op, 
+    RAM
+)
+from   tkinter      import ttk
+import tkinter      as tk
 
 class RamFrame(tk.Frame) :
+
     def __init__(self, parent, root, *args, **kwargs) :
+        """
+        I'm trying to create a frame within a frame, and then I'm trying to configure the inner frame
+        
+        :param parent: The parent widget
+        :param root: The root window
+        """
         super().__init__(parent, *args, **kwargs)
 
         self.configure(background="gray74")
@@ -21,6 +30,9 @@ class RamFrame(tk.Frame) :
         self.resetRamScreen()
         
     def loadRamLabels(self) :
+        """
+        It takes a list of RAM values, and creates a list of labels for each RAM value
+        """
         self.ramLabels = []
 
         for i in range(len(self.ramValues)) :
@@ -30,12 +42,19 @@ class RamFrame(tk.Frame) :
                 self.ramLabels.append([str(self.ramValues[i].address +" "+ reverse_sign_op(self.ramValues[i].value)), False])
 
     def resetRamScreen(self) :
+        """
+        It creates a new RAM object, assigns the RAM object's registers to a variable, and then calls
+        two functions to load the RAM labels and grid the RAM labels
+        """
         self.ramObj = RAM()
         self.ramValues = self.ramObj.registers
         self.loadRamLabels()
         self.gridRamLabels()
 
     def updateRamScreen(self) :
+        """
+        It takes the values from the RAM object and puts them into the labels on the GUI
+        """
         self.ramObj = self.root.ram
         self.ramValues = self.ramObj.registers
         self.loadRamLabels()
@@ -43,6 +62,9 @@ class RamFrame(tk.Frame) :
         self.gridRamLabels()
 
     def gridRamLabels(self) :
+        """
+        It creates a grid of labels and places them in a frame
+        """
         matrixSize = 16
         fontSize = 11
         currentColumn = 0
@@ -64,5 +86,8 @@ class RamFrame(tk.Frame) :
                 currentRow += 1
 
     def clearContainer(self) :
+        """
+        It destroys all the widgets in the ramContainerFrame.
+        """
         for child in self.ramContainerFrame.winfo_children() :
             child.destroy()

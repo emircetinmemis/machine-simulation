@@ -1,6 +1,10 @@
 import os
 
 def _connect_paths(*paths):
+    """
+    It takes a variable number of arguments and joins them together with the appropriate path separator
+    :return: the path of the file.
+    """
     return os.path.join(*paths)
 
 ASSETS_FOLDER_PATH = "assets"

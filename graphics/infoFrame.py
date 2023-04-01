@@ -1,8 +1,16 @@
-from   tkinter  import ttk
-import tkinter  as tk
+from    tkinter     import  ttk
+import  tkinter     as      tk
 
 class InfoFrame(tk.Frame) :
+
     def __init__(self, parent, root, *args, **kwargs) :
+        """
+        It creates a frame with labels that display the current line number, current instruction, and
+        the accumulator.
+        
+        :param parent: The parent widget
+        :param root: the root window
+        """
         super().__init__(parent, *args, **kwargs)
 
         self.root = root
@@ -47,6 +55,19 @@ class InfoFrame(tk.Frame) :
             label.configure(font=("Cambiria", 11, "bold"), anchor="center", justify="center", background="gray74")
 
     def updateInfoScreen(self, lineNumber, currentInstruction, CI_BIN, CI_HEX, CI_DEC, AC_BIN, AC_HEX, AC_DEC) :
+        """
+        It updates the information screen with the current line number, current instruction, current
+        instruction in binary, hex, and decimal, and the accumulator in binary, hex, and decimal.
+        
+        :param lineNumber: The line number of the current instruction
+        :param currentInstruction: The current instruction being executed
+        :param CI_BIN: Current Instruction in Binary
+        :param CI_HEX: Current Instruction in Hexadecimal
+        :param CI_DEC: Current Instruction in Decimal
+        :param AC_BIN: The binary value of the accumulator
+        :param AC_HEX: The accumulator in hexadecimal
+        :param AC_DEC: The accumulator in decimal
+        """
 
         self.lineNumber.set(f"Line Number  :  {lineNumber}")
         self.currentInstruction.set(f"Current Instruction  : {currentInstruction}")

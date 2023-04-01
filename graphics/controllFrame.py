@@ -1,8 +1,15 @@
-from tkinter  import ttk
-import tkinter  as tk
+from    tkinter     import  ttk
+import  tkinter     as      tk
 
 class ControllFrame(tk.Frame) :
+
     def __init__(self, parent, root, *args, **kwargs) :
+        """
+        It creates a frame with 5 buttons, each with a different function
+        
+        :param parent: The parent widget
+        :param root: the root window
+        """
         super().__init__(parent, *args, **kwargs)
 
         self.configure(background="gray74")
@@ -34,6 +41,10 @@ class ControllFrame(tk.Frame) :
             button.grid_configure(padx=20, pady=5, ipadx=5, ipady=5)
 
     def startMachine(self) :
+        """
+        It disables the start button, enables the reset and next buttons, saves the text content, loads
+        the machine, and runs the compiler
+        """
         self.startButton.config(state="disabled")
         self.resetButton.config(state="normal")
         self.nextButton.config(state="normal")
@@ -43,6 +54,9 @@ class ControllFrame(tk.Frame) :
         self.root.runCompiler()
 
     def resetMachine(self) :
+        """
+        It resets the GUI to its initial state.
+        """
         self.resetButton.config(state="disabled")
         self.nextButton.config(state="disabled", text="Next")
         self.startButton.config(state="normal")

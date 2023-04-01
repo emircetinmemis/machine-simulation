@@ -1,13 +1,34 @@
-from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
-from graphics import _ControllFrame, _InfoFrame, _InputFrame, _RamFrame
-from utilities import decode_assembly, reverse_sign_op
-from constants import menomic, SHEET_PATH, INPUT_TXT_PATH
-from tkinter  import ttk
+from utilities import (
+    InstructionMemory, 
+    decode_assembly, 
+    reverse_sign_op,
+    ProgramCounter, 
+    Accumulator, 
+    Compiler, 
+    RAM
+)
+from graphics import (
+    _ControllFrame, 
+    _InputFrame, 
+    _InfoFrame, 
+    _RamFrame
+)
+from constants import (
+    INPUT_TXT_PATH,
+    SHEET_PATH, 
+    menomic 
+)
+from    tkinter  import ttk
 import  tkinter  as tk
-from PIL import Image, ImageTk
+from    PIL      import Image, ImageTk
 
 class Application(tk.Tk) :
+
     def __init__(self, *args, **kwargs) :
+        """
+        It creates a window with a title, a background color, a style, a container, and a bunch of
+        frames
+        """
         super().__init__(*args, **kwargs)
 
         self.title("Memory Management Project - Computer Architecture - Ahmet Y. | Kerem K. | Musatafa Mer T. | Emir Çetin M.")
@@ -43,6 +64,9 @@ class Application(tk.Tk) :
             frame.configure(borderwidth=1, relief='solid')
 
     def showPhoto(self) :
+        """
+        It opens a photo and displays it in a label.
+        """
 
         if self.controllerSection.photoButton.cget("text") == "Open Sheet":
             self.controllerSection.photoButton.config(text="Close Sheet")
@@ -60,6 +84,9 @@ class Application(tk.Tk) :
             self.label.grid_forget()
 
     def loadMachine(self) :
+        """
+        It loads the machine with the instructions from the input file
+        """
         try :
             self.instructions = decode_assembly(INPUT_TXT_PATH)
             self.number_of_instructions = len(self.instructions)
@@ -72,6 +99,9 @@ class Application(tk.Tk) :
         self.im = InstructionMemory(self.instructions)
 
     def runCompiler(self) :
+        """
+        It takes the input from the user, compiles it, and then updates the GUI with the results
+        """
 
         if (self.inputSection.inputArea.get("1.0", tk.END).rstrip() == "") :
             self.controllerSection.nextButton.config(state="disabled", text="End")

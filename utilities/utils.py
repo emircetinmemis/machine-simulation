@@ -1,6 +1,17 @@
-from constants import UNSIGNED_MAX_LEN, SIGNED_MAX_LEN, hextobin, menomic, opcode
+from constants import (
+    UNSIGNED_MAX_LEN, 
+    hextobin, 
+    menomic, 
+    opcode
+)
 
 def decode_assembly(code_path):
+    """
+    It reads the file line by line, and for each line, it extracts the command and appends it to a list
+    
+    :param code_path: The path to the assembly code file
+    :return: A list of commands
+    """
     commands = list()
     with open(code_path, 'r') as f:
         for line in f:
@@ -10,6 +21,12 @@ def decode_assembly(code_path):
     return commands
 
 def extract_code(raw_line):
+    """
+    It takes a line of code, removes comments, whitespace, and converts it to a list of binary numbers
+    
+    :param raw_line: The line of code that you want to extract the code from
+    :return: the binary code of the instruction.
+    """
     # Remove the '\n' at the end
     line = raw_line[:-1] if raw_line[-1] == '\n' else raw_line
     # Remove the comments
@@ -32,6 +49,13 @@ def extract_code(raw_line):
     return line
 
 def input_to_bin(val):
+    """
+    If the input is negative, it adds a 1 to the front of the binary number. If the input is positive,
+    it adds a 0 to the front of the binary number
+    
+    :param val: The value that is being converted to binary
+    :return: A string of binary digits.
+    """
     if val[0] == '-':
         if len(val) == 2:
             val = '1000' + hextobin[val[1]]
@@ -54,6 +78,15 @@ def input_to_bin(val):
     return val
 
 def display_content(inst, val, line_no, acc):
+    """
+    It prints the current instruction, the current line number, the current accumulator value, and the
+    current instruction value
+    
+    :param inst: The instruction
+    :param val: The instruction value
+    :param line_no: The line number of the instruction
+    :param acc: The accumulator
+    """
     inst_value = reverse_sign_op(val)
     acc_value  = reverse_sign_op(acc)
 
@@ -71,6 +104,13 @@ def display_content(inst, val, line_no, acc):
     print()
 
 def boundary_check(data):
+    """
+    If the data is greater than 127, return 127. If the data is less than -127, return -127. Otherwise,
+    return the data
+    
+    :param data: the data to be checked
+    :return: The hexadecimal representation of the data.
+    """
     if data > 127:
         return hex(127)
     elif data < -127:
@@ -79,6 +119,12 @@ def boundary_check(data):
         return hex(data)
 
 def sign_op(data):
+    """
+    It takes a hexadecimal number and returns a signed binary number
+    
+    :param data: The data to be converted to signed binary
+    :return: The sign bit and the 7-bit data.
+    """
     #print("This:", bin(int(data,16)))
     data = boundary_check(int(data,16))
     data = bin(int(data,16))
@@ -91,6 +137,15 @@ def sign_op(data):
     return data
 
 def reverse_sign_op(data):
+    """
+    If the sign bit is 1, then the number is negative, so we add a negative sign to the front of the
+    number. 
+    If the sign bit is 0, then the number is positive, so we don't add a negative sign to the front of
+    the number
+    
+    :param data: The binary data to be converted to hexadecimal
+    :return: The return value is the data that is passed in.
+    """
     sign_bit = data[0]
     data = data[1:]
     data = hex(int(data,2))
@@ -99,6 +154,14 @@ def reverse_sign_op(data):
     return data
 
 def summation(num1, num2):
+    """
+    It takes two binary numbers, adds them together, and returns the result
+    
+    :param num1: The first number to be added
+    :param num2:
+    1000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
+    :return: The result of the summation of the two numbers.
+    """
     result = ''
     carry = 0
     
@@ -117,6 +180,13 @@ def summation(num1, num2):
     return result
 
 def extraction(num1, num2):
+    """
+    It takes two numbers, inverts the second one, adds them together, and adds one to the result
+    
+    :param num1: The first number to be subtracted
+    :param num2: the number to be subtracted
+    :return: The result of the subtraction of two numbers.
+    """
     temp = ''
     for i in range(UNSIGNED_MAX_LEN):
         temp += '0' if num2[i] == '1' else '1'

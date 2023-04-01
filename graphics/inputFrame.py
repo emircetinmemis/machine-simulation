@@ -1,9 +1,17 @@
-from   tkinter  import ttk
-import tkinter  as tk
-from constants import INPUT_TXT_PATH
+from    constants   import INPUT_TXT_PATH
+from    tkinter     import ttk
+import  tkinter     as tk
 
 class InputFrame(tk.Frame) :
+    
     def __init__(self, parent, root, *args, **kwargs) :
+        """
+        The above function is a constructor for the class "InputArea" which is a child class of the
+        class "tk.Frame".
+        
+        :param parent: The parent widget
+        :param root: the root window
+        """
         super().__init__(parent, *args, **kwargs)
 
         self.root = root
@@ -30,10 +38,16 @@ class InputFrame(tk.Frame) :
         self.inputArea.bind("<Delete>", self.clearTextContent)
     
     def clearTextContent(self, *event) :
+        """
+        It clears the text in the inputArea widget and unbinds the event that was bound to it
+        """
         self.inputArea.delete("1.0", tk.END)
         self.inputArea.unbind("<Button-1>")
 
     def saveAndCloseTextContent(self) :
+        """
+        It takes the text from the inputArea widget, and saves it to a file
+        """
         self.inputArea.config(state="disabled")
 
         with open(INPUT_TXT_PATH, 'w') as f:

@@ -1,12 +1,15 @@
 from constants import (
     PROGRAM_STRUCTURE_CHECKLIST,
-    PRE_EXISTING_CHECKLIST,
-    PYCACHE_INCLUDERS_CHECKLIST
+    PYCACHE_INCLUDERS_CHECKLIST,
+    PRE_EXISTING_CHECKLIST
 )
-import os
 import shutil
+import os
 
 def starter():
+    """
+    It checks if the folders in the checklist exist, and if they don't, it creates them
+    """
 
     for current_folder in PRE_EXISTING_CHECKLIST:
         if not os.path.exists(current_folder):
@@ -20,6 +23,9 @@ def starter():
         raise Exception(f"Corrupted program structure. Please make sure the following folders exist: {missangelous}")
 
 def closer():
+    """
+    It deletes all the __pycache__ folders in the project directory
+    """
     
     projectDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
