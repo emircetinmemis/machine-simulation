@@ -6,11 +6,12 @@ def _connect_paths(*paths):
 ASSETS_FOLDER_PATH = "assets"
 CONSTANTS_FOLDER_PATH = "constants"
 GRAPHICS_FOLDER_PATH = "graphics"
-OUTPUT_FOLDER_PATH = "output"
+DATA_FOLDER_PATH = "data"
 UTILITIES_FOLDER_PATH = "utilities"
 
 SHEET_PATH = _connect_paths(ASSETS_FOLDER_PATH, "instruction_set.png")
-CONSOLE_TEXT_PATH = _connect_paths(OUTPUT_FOLDER_PATH, "console_output.txt")
+INPUT_TXT_PATH = _connect_paths(DATA_FOLDER_PATH, "instructions.txt")
+CONSOLE_TEXT_PATH = _connect_paths(DATA_FOLDER_PATH, "console_output.txt")
 
 PROGRAM_STRUCTURE_CHECKLIST = [
     ASSETS_FOLDER_PATH,
@@ -26,5 +27,5 @@ PYCACHE_INCLUDERS_CHECKLIST = [
 ]
 
 PRE_EXISTING_CHECKLIST = [
-    OUTPUT_FOLDER_PATH
+    DATA_FOLDER_PATH
 ]

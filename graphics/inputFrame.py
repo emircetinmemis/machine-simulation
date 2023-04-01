@@ -1,5 +1,6 @@
 from   tkinter  import ttk
 import tkinter  as tk
+from constants import INPUT_TXT_PATH
 
 class InputFrame(tk.Frame) :
     def __init__(self, parent, root, *args, **kwargs) :
@@ -35,6 +36,6 @@ class InputFrame(tk.Frame) :
     def saveAndCloseTextContent(self) :
         self.inputArea.config(state="disabled")
 
-        with open("data.txt", 'w') as f:
+        with open(INPUT_TXT_PATH, 'w') as f:
             f.write(self.inputArea.get("1.0", tk.END).rstrip())
 

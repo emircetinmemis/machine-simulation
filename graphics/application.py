@@ -1,7 +1,7 @@
 from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from graphics import _ControllFrame, _InfoFrame, _InputFrame, _RamFrame
 from utilities import decode_assembly, reverse_sign_op
-from constants import menomic, SHEET_PATH
+from constants import menomic, SHEET_PATH, INPUT_TXT_PATH
 from tkinter  import ttk
 import  tkinter  as tk
 from PIL import Image, ImageTk
@@ -61,12 +61,11 @@ class Application(tk.Tk) :
 
     def loadMachine(self) :
         try :
-            self.instructions = decode_assembly("data.txt")
+            self.instructions = decode_assembly(INPUT_TXT_PATH)
             self.number_of_instructions = len(self.instructions)
         except :
-            print("Given assembly code is not valid. Or data.txt is not exist !")
-            exit()
-        
+            raise (f"Given assembly code is not valid. Or {INPUT_TXT_PATH} does not exist !")
+            
         self.ram = RAM()
         self.acc = Accumulator()
         self.pc = ProgramCounter()

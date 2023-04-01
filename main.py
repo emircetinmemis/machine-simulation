@@ -2,7 +2,7 @@ from utilities import decode_assembly
 from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from graphics import Application
 from utilities import starter, closer
-from constants import CONSOLE_TEXT_PATH
+from constants import CONSOLE_TEXT_PATH, INPUT_TXT_PATH
 
 GUI = True
 CONSOLE_WRITE = False
@@ -18,7 +18,7 @@ CONSOLE_WRITE = False
 
 def main():
     # Read the assembly code
-    instructions = decode_assembly('data.txt')
+    instructions = decode_assembly(INPUT_TXT_PATH)
     number_of_instructions = len(instructions)
 
     # Initialize the components
