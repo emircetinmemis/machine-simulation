@@ -1,13 +1,1 @@
-LDI 3
-STR 0
-LDI f
-STR 1
-SUB 0
-STR 2
-LDM 0
-BRN 4
-BRZ 8
-LDI 0
-BRZ B
-LDM 2
-NOT 7
+str 0
