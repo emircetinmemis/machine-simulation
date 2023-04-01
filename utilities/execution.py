@@ -7,8 +7,6 @@ import os
 import shutil
 
 def starter():
-    
-    empty = list()
 
     for current_folder in PRE_EXISTING_CHECKLIST:
         if not os.path.exists(current_folder):
@@ -18,7 +16,7 @@ def starter():
     for current_folder in PROGRAM_STRUCTURE_CHECKLIST:
         if not os.path.exists(current_folder):
             missangelous.append(os.path.abspath(current_folder))
-    if missangelous is not empty:
+    if missangelous != []:
         raise Exception(f"Corrupted program structure. Please make sure the following folders exist: {missangelous}")
 
 def closer():

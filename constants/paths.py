@@ -10,6 +10,7 @@ OUTPUT_FOLDER_PATH = "output"
 UTILITIES_FOLDER_PATH = "utilities"
 
 SHEET_PATH = _connect_paths(ASSETS_FOLDER_PATH, "instruction_set.png")
+CONSOLE_TEXT_PATH = _connect_paths(OUTPUT_FOLDER_PATH, "console_output.txt")
 
 PROGRAM_STRUCTURE_CHECKLIST = [
     ASSETS_FOLDER_PATH,

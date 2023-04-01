@@ -2,6 +2,7 @@ from utilities import decode_assembly
 from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from graphics import Application
 from utilities import starter, closer
+from constants import CONSOLE_TEXT_PATH
 
 GUI = True
 CONSOLE_WRITE = False
@@ -47,12 +48,13 @@ def main_gui():
 # check if __name__ is main and run the main function
 import contextlib
 if __name__ == "__main__":
+    starter()
     if GUI:
         main_gui()
     else:
         if CONSOLE_WRITE:
-            console_output_file = "console_output.txt"
-            with contextlib.redirect_stdout(open(console_output_file, "w")):
+            with contextlib.redirect_stdout(open(CONSOLE_TEXT_PATH, "w")):
                 main()
         else:
             main()
+    closer()

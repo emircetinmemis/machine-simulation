@@ -1,7 +1,7 @@
 from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from graphics import _ControllFrame, _InfoFrame, _InputFrame, _RamFrame
 from utilities import decode_assembly, reverse_sign_op
-from constants import menomic
+from constants import menomic, SHEET_PATH
 from tkinter  import ttk
 import  tkinter  as tk
 from PIL import Image, ImageTk
@@ -47,9 +47,8 @@ class Application(tk.Tk) :
         if self.controllerSection.photoButton.cget("text") == "Open Sheet":
             self.controllerSection.photoButton.config(text="Close Sheet")
 
-            photoPath = "instruction_set.png"
-            c = 1
-            photo = Image.open(photoPath).resize((505*c, 308*c), Image.ANTIALIAS)
+            scale = 1
+            photo = Image.open(SHEET_PATH).resize((505*scale, 308*scale), Image.ANTIALIAS)
             photo = ImageTk.PhotoImage(photo)
             self.label = ttk.Label(self.container, image=photo)
             self.label.image = photo
