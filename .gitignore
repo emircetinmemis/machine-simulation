@@ -4,8 +4,7 @@ __pycache__/
 *$py.class
 
 # IO
-data/instructions.txt
-data/console_output.txt
+data/
 
 # config files
 *.cfg
