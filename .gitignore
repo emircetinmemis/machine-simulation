@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# IO
+data/instructions.txt
+data/console_output.txt
+
 # config files
 *.cfg
 *.json
