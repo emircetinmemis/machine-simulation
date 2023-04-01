@@ -1,6 +1,7 @@
 from utilities import decode_assembly
 from utilities import RAM, Accumulator, ProgramCounter, InstructionMemory, Compiler
 from graphics import Application
+from utilities import starter, closer
 
 GUI = True
 CONSOLE_WRITE = False

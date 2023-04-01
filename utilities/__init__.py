@@ -18,3 +18,8 @@ from utilities.components import (
     InstructionMemory, 
     Compiler
 )
+
+from utilities.execution import (
+    starter,
+    closer
+)
